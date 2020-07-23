@@ -8,4 +8,5 @@
 
 import UIKit
 
-extension UITableViewCell: IdentifiableProtocol{} // let us make UITableViewCell conform to Identifiable protocol
+extension UITableViewCell: IdentifiableProtocol {} // let us make UITableViewCell conform to Identifiable protocol
+extension UITableViewHeaderFooterView: IdentifiableProtocol {} // let us make header footer view conform to Identifiable protocol

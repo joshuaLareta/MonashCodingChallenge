@@ -13,7 +13,7 @@ class InfoView: UIView {
     let mainTitle: UILabel = {
         let mainTitle = UILabel()
         mainTitle.translatesAutoresizingMaskIntoConstraints = false
-        mainTitle.font = UIFont.boldSystemFont(ofSize: 14)
+        mainTitle.font = UIFont.boldSystemFont(ofSize: 16)
         mainTitle.textColor = .black
         mainTitle.setContentHuggingPriority(.required, for: .vertical)
         mainTitle.setContentCompressionResistancePriority(.required, for: .vertical)
@@ -24,7 +24,7 @@ class InfoView: UIView {
         let subTitle = UILabel()
         subTitle.translatesAutoresizingMaskIntoConstraints = false
         subTitle.font = UIFont.systemFont(ofSize: 12)
-        subTitle.textColor = .lightGray
+        subTitle.textColor = .gray
         subTitle.setContentHuggingPriority(.required, for: .vertical)
         subTitle.setContentCompressionResistancePriority(.required, for: .vertical)
         return subTitle
@@ -34,6 +34,12 @@ class InfoView: UIView {
     init() {
         super.init(frame: .zero)
         self.translatesAutoresizingMaskIntoConstraints = false
+        setupSelf()
+    }
+    
+    /// If we want to intialized it using a frame
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupSelf()
     }
     

@@ -19,6 +19,9 @@
 		42F2191624C84B1900C84108 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2191524C84B1900C84108 /* InfoView.swift */; };
 		42F2191824C854A400C84108 /* NavigationController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2191724C854A400C84108 /* NavigationController+Extensions.swift */; };
 		42F2191A24C8569200C84108 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2191924C8569200C84108 /* Color+Extensions.swift */; };
+		42F2191D24C85E3900C84108 /* TableViewSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2191C24C85E3900C84108 /* TableViewSectionHeaderView.swift */; };
+		42F2191F24C863E900C84108 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2191E24C863E900C84108 /* UIView+Extensions.swift */; };
+		42F2192124C890F000C84108 /* TimeAndInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2192024C890F000C84108 /* TimeAndInfoTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +51,9 @@
 		42F2191524C84B1900C84108 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		42F2191724C854A400C84108 /* NavigationController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationController+Extensions.swift"; sourceTree = "<group>"; };
 		42F2191924C8569200C84108 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
+		42F2191C24C85E3900C84108 /* TableViewSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSectionHeaderView.swift; sourceTree = "<group>"; };
+		42F2191E24C863E900C84108 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		42F2192024C890F000C84108 /* TimeAndInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAndInfoTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +139,7 @@
 				42F2190C24C8458600C84108 /* TableView+Extensions.swift */,
 				42F2191724C854A400C84108 /* NavigationController+Extensions.swift */,
 				42F2191924C8569200C84108 /* Color+Extensions.swift */,
+				42F2191E24C863E900C84108 /* UIView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -148,6 +155,7 @@
 		42F2190E24C848DE00C84108 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				42F2191B24C85E0900C84108 /* TableViewSectionHeader */,
 				42F2191224C84A5300C84108 /* InfoView */,
 				42F2190F24C848E500C84108 /* TableViewCells */,
 			);
@@ -158,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				42F2191024C8490700C84108 /* BaseTableViewCell.swift */,
+				42F2192024C890F000C84108 /* TimeAndInfoTableViewCell.swift */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -168,6 +177,14 @@
 				42F2191524C84B1900C84108 /* InfoView.swift */,
 			);
 			path = InfoView;
+			sourceTree = "<group>";
+		};
+		42F2191B24C85E0900C84108 /* TableViewSectionHeader */ = {
+			isa = PBXGroup;
+			children = (
+				42F2191C24C85E3900C84108 /* TableViewSectionHeaderView.swift */,
+			);
+			path = TableViewSectionHeader;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,9 +293,12 @@
 				42E84A0724C8278400F60050 /* AppDelegate.swift in Sources */,
 				42F2190D24C8458600C84108 /* TableView+Extensions.swift in Sources */,
 				42F2190724C8402800C84108 /* InfoManager.swift in Sources */,
+				42F2191D24C85E3900C84108 /* TableViewSectionHeaderView.swift in Sources */,
 				42F2191124C8490700C84108 /* BaseTableViewCell.swift in Sources */,
 				42F2190B24C8450300C84108 /* IdentifiableProtocol.swift in Sources */,
 				42F2191824C854A400C84108 /* NavigationController+Extensions.swift in Sources */,
+				42F2192124C890F000C84108 /* TimeAndInfoTableViewCell.swift in Sources */,
+				42F2191F24C863E900C84108 /* UIView+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

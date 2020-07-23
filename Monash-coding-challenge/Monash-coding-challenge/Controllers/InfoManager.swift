@@ -18,6 +18,6 @@ extension InfoManager {
     }
     
     func numberOfItems(forSection section: Int) -> Int {
-        return 100
+        return 4
     }
 }
