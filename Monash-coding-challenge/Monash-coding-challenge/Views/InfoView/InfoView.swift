@@ -66,7 +66,7 @@ class InfoView: UIView {
                                                            views: ["subTitle": subTitle]))
         
         // Setup mainTitle and subTitle vertical constraints. We added a top padding of 5 and a >= 5 for the bottom. The Superview might control the total height so we added a bottom padding of >=5 eliminating the constraint conflicts.
-        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-5-[mainTitle][subTitle]->=5-|",
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-5-[mainTitle]-5-[subTitle]->=5-|",
                                                            options: [],
                                                            metrics: nil,
                                                            views: ["mainTitle": mainTitle, "subTitle": subTitle]))

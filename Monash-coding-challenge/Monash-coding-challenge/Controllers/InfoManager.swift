@@ -11,15 +11,18 @@ import Foundation
 class InfoManager {
     var userProvider: UserDataProvider = UserDataProvider() // assign the data provider
     var scheduleProvider: ScheduleDataProvider = ScheduleDataProvider()
+    var carparkProvider: CarParkDataProvider = CarParkDataProvider()
     
     private var schedules: [ClassSchedule] = []
     private var user: User?
+    private var carparks: [Carpark] = []
     
     var items: [TableSections] = []
     
     init() {
         requestSchedules()
         requestUserData()
+        requestCarParkData()
         processItems()
         // Request this should not be here, for the sake of this test we'll call it as soon as we initialized the managaer
     }
@@ -30,7 +33,10 @@ extension InfoManager {
         items.removeAll()
         if schedules.isEmpty == false {
             items.append(TableSections(section: .schedules(schedules)))
-            items.append(TableSections(section: .carparks([Carpark(location: "", total: 1, available: 20)])))
+        }
+        
+        if carparks.isEmpty == false {
+            items.append(TableSections(section: .carparks(carparks)))
         }
         // add other things here
     }
@@ -53,6 +59,14 @@ extension InfoManager {
             guard let `self` = self else { return }
             print(error) // print error if it exist
             self.user = data
+        }
+    }
+    
+    func requestCarParkData() {
+        carparkProvider.requestData { [weak self] (data, error) in
+            guard let `self` = self else { return }
+            print(error) // print error if it exist
+            self.carparks = data ?? []
         }
     }
 }

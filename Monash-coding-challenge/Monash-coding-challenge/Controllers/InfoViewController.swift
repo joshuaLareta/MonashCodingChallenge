@@ -41,6 +41,7 @@ class InfoViewController: UIViewController {
         // Register the needed cells
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.identifier)
         tableView.register(TimeAndInfoTableViewCell.self, forCellReuseIdentifier: TimeAndInfoTableViewCell.identifier)
+        tableView.register(CarParkDetailTableViewCell.self, forCellReuseIdentifier: CarParkDetailTableViewCell.identifier)
         tableView.register(TableViewSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: TableViewSectionHeaderView.identifier)
         tableView.register(TableviewSectionHeaderTitleView.self, forHeaderFooterViewReuseIdentifier: TableviewSectionHeaderTitleView.identifier)
         // additional prettifying
@@ -129,7 +130,7 @@ extension InfoViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let cell = cell as? TimeAndInfoTableViewCell else { return }
+        guard let cell = cell as? BaseTableViewCell else { return }
         // We only add shadows when the content view already has its bounds set.
          cell.addShadow(tableView, indexPath: indexPath)
     }
@@ -154,6 +155,8 @@ extension InfoViewController: UITableViewDataSource {
         switch item.section {
         case .schedules(let list):
             return processScheduleCells(tableView, items: list, indexPath: indexPath)
+        case .carparks(let list):
+            return processCarParkCells(tableView, items: list, indexPath: indexPath)
         default:
             return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
         }
@@ -162,6 +165,12 @@ extension InfoViewController: UITableViewDataSource {
 
 // Format Cells based on what needs to be displayed
 extension InfoViewController {
+    /// This Method holds the process of applying the `Schedule` data to the cell.
+    ///
+    /// - Parameters:
+    ///   - tableView : TableView instance
+    ///   - items          : This is the item that needs to be displayed
+    ///   - indexPath : The position of the item. We mostly use  `IndexPath.row` to access `Items`
     private func processScheduleCells(_ tableView: UITableView, items: [ClassSchedule], indexPath: IndexPath) -> UITableViewCell {
         // We first check if there's actually an item present then we check if the cell is of type `TimeAndInfoTableViewCell` and make sure that its that type moving forward
         guard items.count > indexPath.row,
@@ -180,7 +189,11 @@ extension InfoViewController {
         
         // Need to determine the last cell to appropriately add the design
         if indexPath.row != (tableView.numberOfRows(inSection: indexPath.section) - 1) { // check if it's the last item
-            cell.containerView.addBorders(edges: .bottom, width: 1, color: UIColor.cellSeparatorColor.withAlphaComponent(0.5), leftOffset: 20, rightOffset: 20)
+            cell.containerView.addBorders(edges: .bottom,
+                                          width: 1,
+                                          color: UIColor.cellSeparatorColor.withAlphaComponent(0.5),
+                                          leftOffset: 20,
+                                          rightOffset: 20)
             // remove if its not the last cell. This is because cells are being reused
             cell.containerView.cornerRadius(0, sides: [.leftBottom, .rightBottom])
         } else {
@@ -189,4 +202,44 @@ extension InfoViewController {
         }
         return cell
     }
+    
+    /// This Method holds the process of applying the `Car Park` data to the cell.
+    ///
+    /// - Parameters:
+    ///   - tableView : TableView instance
+    ///   - items          : This is the item that needs to be displayed
+    ///   - indexPath : The position of the item. We mostly use  `IndexPath.row` to access `Items`
+    private func processCarParkCells(_ tableView: UITableView, items: [Carpark], indexPath: IndexPath) -> UITableViewCell {
+        guard items.count > indexPath.row,
+            let cell = tableView.dequeueReusableCell(withIdentifier: CarParkDetailTableViewCell.identifier, for: indexPath) as? CarParkDetailTableViewCell else {
+                return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
+        }
+        let item = items[indexPath.row]
+        /// Updates the car space check
+        cell.update(name: item.location,
+                    available: item.available,
+                    total: item.total,
+                    healthCheck: item.carSpaceHealthCheck())
+        if indexPath.row == 0 { // check first cell
+            cell.containerView.addBorders(edges: .bottom,
+                                          width: 1,
+                                          color: UIColor.cellSeparatorColor.withAlphaComponent(0.5),
+                                          leftOffset: 20,
+                                          rightOffset: 20)
+            cell.containerView.cornerRadius(Constant.lastCellCornerRadius, sides: [.leftTop, .rightTop])
+        } else if indexPath.row != (tableView.numberOfRows(inSection: indexPath.section) - 1) { // check if it's the last item
+            cell.containerView.addBorders(edges: .bottom,
+                                          width: 1,
+                                          color: UIColor.cellSeparatorColor.withAlphaComponent(0.5),
+                                          leftOffset: 20,
+                                          rightOffset: 20)
+            // remove if its not the last cell. This is because cells are being reused
+            cell.containerView.cornerRadius(0, sides: [.leftBottom, .rightBottom])
+        } else {
+            cell.containerView.removeBorders(edges: .bottom)
+            cell.containerView.cornerRadius(Constant.lastCellCornerRadius, sides: [.leftBottom, .rightBottom])
+        }
+        return cell
+    }
+    
 }

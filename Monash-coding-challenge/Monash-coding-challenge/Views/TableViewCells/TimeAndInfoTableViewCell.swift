@@ -18,11 +18,13 @@ class TimeAndInfoTableViewCell: BaseTableViewCell {
     
     let startTime: UILabel = {
         let startTime = UILabel()
+        startTime.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         return startTime
     }()
     
     let endTime: UILabel = {
         let endTime = UILabel()
+        endTime.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         return endTime
     }()
     

@@ -39,7 +39,7 @@ class TableviewSectionHeaderTitleView: UITableViewHeaderFooterView {
                                                                        metrics: nil,
                                                                        views: ["title": title]))
         
-        self.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[title]|",
+        self.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[title]-8-|",
                                                                        options: [],
                                                                        metrics: nil,
                                                                        views: ["title": title]))
