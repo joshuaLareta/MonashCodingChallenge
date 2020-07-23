@@ -68,20 +68,34 @@ extension BaseTableViewCell {
         // Separating the shadow for the top, mid, bottom cells
         let firstRow = indexPath.row == 0
         let lastRow = (indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1)
-        
+      
         // This uses the content view's bounds and add a 5 to left and right edgeInset and a -5 to top and bottom
         var shadowRect = self.contentView.bounds.insetBy(dx: 5, dy: -5)
         // some adjustments with the width and origin to adjust the placement of the shadow
         shadowRect.size.width -= 10
         shadowRect.origin.x += 5
         
-        // for first row we offset it by 10 so shadow won't be on top
-        if firstRow {
+        // for first row we offset it by 10 so shadow won't be on top. If its a single row we adjust it by 5 both origin and height
+        if firstRow && lastRow {
+            shadowRect.origin.y += 5
+            shadowRect.size.height -= 5
+        }
+        else if firstRow {
             shadowRect.origin.y += 10
         } else if lastRow {
             // we remove the bottom shadow for the last row (not fully showing it, only the excess radius)
-            shadowRect.size.height -= 5
+            shadowRect.size.height -= 2
         }
+        
+        // If first Row and last row are the same (will only happen in single row table) we just add a shadow without editing the layer's mask
+        guard (firstRow && lastRow) == false else {
+            self.addShadow(offset: .zero,
+                           radius: 4,
+                           color: .lightGray,
+                           shadowPath: UIBezierPath(roundedRect: shadowRect, cornerRadius:0).cgPath)
+            return
+        }
+              
         
         // This masks the unwanted shadow by adjusting the frame and covering it up
         var mask = self.contentView.bounds.insetBy(dx: -10, dy: 0)
@@ -90,9 +104,8 @@ extension BaseTableViewCell {
             mask.origin.y -= 10
             mask.size.height += 10
         } else if lastRow {
-            // since we don't want to have too much excess at the bottom we just add 0 for now.
-            mask.size.height += 0
-            
+            // since we don't want to have too much excess at the bottom we just add 10 for now.
+            mask.size.height += 10
         }
         
         // We use the convenience method for adding in a shadow to the view.

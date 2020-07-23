@@ -13,6 +13,7 @@ class InfoViewController: UIViewController {
         static let rowHeight: CGFloat = 100 // act as the default height of our tableView
         static let navigationButtonSize: CGFloat = 24
         static let tableOffset: CGFloat = 20
+        static let lastCellCornerRadius: CGFloat = 5
     }
     
     /// Main "manager" for the controller. think of it as the "ViewModel" which links data and ViewController together.
@@ -37,13 +38,17 @@ class InfoViewController: UIViewController {
         tableView.backgroundColor = .clear
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.estimatedRowHeight = Constant.rowHeight
+        // Register the needed cells
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.identifier)
         tableView.register(TimeAndInfoTableViewCell.self, forCellReuseIdentifier: TimeAndInfoTableViewCell.identifier)
         tableView.register(TableViewSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: TableViewSectionHeaderView.identifier)
+        tableView.register(TableviewSectionHeaderTitleView.self, forHeaderFooterViewReuseIdentifier: TableviewSectionHeaderTitleView.identifier)
+        // additional prettifying
         tableView.contentInset = UIEdgeInsets(top: Constant.tableOffset, left: 0, bottom: 0, right: 0)
         tableView.scrollIndicatorInsets = UIEdgeInsets(top: Constant.tableOffset, left: 0, bottom: 0, right: 0)
         tableView.setContentOffset(CGPoint(x: 0, y: -Constant.tableOffset), animated: false)
         tableView.separatorStyle = .none
+        // set the cell's datasource and delegate
         tableView.delegate = self
         tableView.dataSource = self
         return tableView
@@ -84,7 +89,7 @@ class InfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        infoView.update(title: "Title", subTitle: "subtitle")
+        infoView.update(title: manager.getUserName(), subTitle: manager.getCurrentDate())
         self.navigationItem.leftBarButtonItem = leftBarButton
         self.navigationItem.rightBarButtonItems = rightBarButtons
         // Do any additional setup after loading the view.
@@ -92,6 +97,7 @@ class InfoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // Let's remove the hairline view of the navigation controller
         self.navigationController?.hideHairline()
     }
 }
@@ -108,13 +114,23 @@ extension InfoViewController {
 // TableViews Delegate methods
 extension InfoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard section == 0 else { return nil }
-        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewSectionHeaderView.identifier) else { return nil }
-        return header
+        guard let item = manager.item(atSection: section) else { return nil }
+        switch item.section {
+        case .schedules:
+            guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewSectionHeaderView.identifier) else { return nil }
+            return header
+        case .carparks:
+            guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableviewSectionHeaderTitleView.identifier) as? TableviewSectionHeaderTitleView else { return nil }
+            header.update(title: item.section.title)
+            return header
+        default:
+            return nil
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? TimeAndInfoTableViewCell else { return }
+        // We only add shadows when the content view already has its bounds set.
          cell.addShadow(tableView, indexPath: indexPath)
     }
 }
@@ -125,12 +141,52 @@ extension InfoViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return manager.numberOfItems(forSection: section)
+        return manager.numberOfItems(atSection: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TimeAndInfoTableViewCell.identifier, for: indexPath) as? TimeAndInfoTableViewCell else { return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath) }
+        // Check the cell and get an Item from manager
+        guard let item = manager.item(atSection: indexPath.section) else {
+            return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
+        }
+        
+        // Let's determine how to process the data
+        switch item.section {
+        case .schedules(let list):
+            return processScheduleCells(tableView, items: list, indexPath: indexPath)
+        default:
+            return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
+        }
+    }
+}
+
+// Format Cells based on what needs to be displayed
+extension InfoViewController {
+    private func processScheduleCells(_ tableView: UITableView, items: [ClassSchedule], indexPath: IndexPath) -> UITableViewCell {
+        // We first check if there's actually an item present then we check if the cell is of type `TimeAndInfoTableViewCell` and make sure that its that type moving forward
+        guard items.count > indexPath.row,
+            let cell = tableView.dequeueReusableCell(withIdentifier: TimeAndInfoTableViewCell.identifier, for: indexPath) as? TimeAndInfoTableViewCell else {
+                return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
+        }
+        let item = items[indexPath.row]
+        // let's prettify the cell and add the proper width
         cell.updateCellDistribution(width: self.view.frame.width - 40)
+        
+        // Lets display the data
+        cell.update(start: item.startDate(),
+                    end: item.endDate(),
+                    title: item.subject,
+                    subTitle: item.detailDisplay())
+        
+        // Need to determine the last cell to appropriately add the design
+        if indexPath.row != (tableView.numberOfRows(inSection: indexPath.section) - 1) { // check if it's the last item
+            cell.containerView.addBorders(edges: .bottom, width: 1, color: UIColor.cellSeparatorColor.withAlphaComponent(0.5), leftOffset: 20, rightOffset: 20)
+            // remove if its not the last cell. This is because cells are being reused
+            cell.containerView.cornerRadius(0, sides: [.leftBottom, .rightBottom])
+        } else {
+            cell.containerView.removeBorders(edges: .bottom)
+            cell.containerView.cornerRadius(Constant.lastCellCornerRadius, sides: [.leftBottom, .rightBottom])
+        }
         return cell
     }
 }

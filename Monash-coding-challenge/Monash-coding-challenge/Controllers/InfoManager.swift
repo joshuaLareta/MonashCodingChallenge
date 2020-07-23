@@ -9,15 +9,84 @@
 import Foundation
 
 class InfoManager {
-   
+    var userProvider: UserDataProvider = UserDataProvider() // assign the data provider
+    var scheduleProvider: ScheduleDataProvider = ScheduleDataProvider()
+    
+    private var schedules: [ClassSchedule] = []
+    private var user: User?
+    
+    var items: [TableSections] = []
+    
+    init() {
+        requestSchedules()
+        requestUserData()
+        processItems()
+        // Request this should not be here, for the sake of this test we'll call it as soon as we initialized the managaer
+    }
+}
+
+extension InfoManager {
+    private func processItems() {
+        items.removeAll()
+        if schedules.isEmpty == false {
+            items.append(TableSections(section: .schedules(schedules)))
+            items.append(TableSections(section: .carparks([Carpark(location: "", total: 1, available: 20)])))
+        }
+        // add other things here
+    }
+}
+
+extension InfoManager {
+    
+    // Fetches all the schedules
+    func requestSchedules() {
+        scheduleProvider.requestData { [weak self] (data, error) in
+             guard let `self` = self else { return }
+            print(error)
+            self.schedules = data ?? []
+        }
+    }
+    
+    // Fetches user data
+    func requestUserData() {
+        userProvider.requestData { [weak self] data, error in
+            guard let `self` = self else { return }
+            print(error) // print error if it exist
+            self.user = data
+        }
+    }
+}
+
+
+extension InfoManager {
+    func getUserName() -> String? {
+        guard let name = user?.name else { return nil }
+        return String(format: NSLocalizedString("Hey, %@", comment: "Hey, <username>"), name)
+    }
+    
+    func getCurrentDate() -> String? {
+        let currentDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM EEEE"
+        let dateString = dateFormatter.string(from: currentDate)
+        guard let semesterWeek = user?.semesterWeek else { return dateString }
+        return String(format:"%@, week %d", dateString, semesterWeek)
+    }
 }
 
 extension InfoManager {
     func totalItems() -> Int {
-        return 10
+        return items.count
     }
     
-    func numberOfItems(forSection section: Int) -> Int {
-        return 4
+    func numberOfItems(atSection section: Int) -> Int {
+        guard items.count > section else { return 0 }
+        let item = items[section]
+        return item.itemCount
+    }
+    
+    func item(atSection section: Int) -> TableSections? {
+        guard items.count > section else { return nil }
+        return items[section]
     }
 }

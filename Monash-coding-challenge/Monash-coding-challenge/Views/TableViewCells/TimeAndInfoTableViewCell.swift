@@ -30,7 +30,7 @@ class TimeAndInfoTableViewCell: BaseTableViewCell {
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
         title.textAlignment = .center
-        title.font = UIFont.boldSystemFont(ofSize: 16)
+        title.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
         return title
     }()
     
@@ -99,7 +99,7 @@ class TimeAndInfoTableViewCell: BaseTableViewCell {
         // we are using the containerView instead of the contentView as we want to have the left and right padding without affecting the natural behaviour of content
         
         // This sets the dateStack, separator, and info stack's horizontal layout
-        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[dateStack]-5-[separator(==2.5)]-10-[infoStack]->=0-|",
+        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[dateStack]-5-[separator(==2.5)]-20-[infoStack]->=0-|",
                                                                          options: [],
                                                                          metrics: nil,
                                                                          views: ["dateStack": dateStack, "separator": separator, "infoStack": infoStack]))
@@ -133,8 +133,8 @@ class TimeAndInfoTableViewCell: BaseTableViewCell {
                                                                          metrics: nil,
                                                                          views: ["dateStack": dateStack]))
         
-        // We set the infoStack's vertical constraints having a 5 on top and bottom
-        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-5-[infoStack]-5-|",
+        // We set the infoStack's vertical constraints having a 10 on top and 15 bottom
+        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[infoStack]-15-|",
                                                                          options: [],
                                                                          metrics: nil,
                                                                          views: ["infoStack": infoStack]))

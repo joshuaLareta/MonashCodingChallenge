@@ -33,7 +33,7 @@ class TableViewSectionHeaderView: UITableViewHeaderFooterView {
     let banner: UILabel = {
         let banner = UILabel()
         banner.translatesAutoresizingMaskIntoConstraints = false
-        banner.font = UIFont.boldSystemFont(ofSize: 16)
+        banner.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
         banner.textColor = .white
         banner.textAlignment = .center
         banner.text = "Today".uppercased()
@@ -131,6 +131,6 @@ class TableViewSectionHeaderView: UITableViewHeaderFooterView {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         // since we want to make sure that the element has already rendered it's frame we will add the gradient after the draw method
-        bannerContainer.gradientBackground(colors: [#colorLiteral(red: 0.8308809996, green: 0, blue: 0, alpha: 1).withAlphaComponent(0.72).cgColor, UIColor.backgroundColor.cgColor])
+        bannerContainer.gradientBackground(colors: [UIColor.appRedColor.withAlphaComponent(0.72).cgColor, UIColor.backgroundColor.cgColor])
     }
 }

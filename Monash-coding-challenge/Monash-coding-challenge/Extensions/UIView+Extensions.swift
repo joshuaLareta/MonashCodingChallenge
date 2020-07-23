@@ -92,4 +92,89 @@ extension UIView {
         self.layer.shadowRadius = radius
         self.layer.shadowPath = shadowPath
     }
+    
+    /// Method for adding borders to a view. This utilizes VFL. heavily
+    ///
+    /// - Parameters:
+    ///  - edges                : This will inform what sides/edges we need to add the border to. This is a `UIRectEdge` type
+    ///  - width                : This informs the view of how thick the border will be. Default is 0.5
+    ///  - color                : This dictates the color of the border. Defaults to `UIColor.separator`(only available in iOS 13)
+    ///  - leftOffset     : This dictates the left offset of the border. Defaults to 0
+    ///  - rightOffset   : This dictates the right offfset of the border. Defaults to 0
+    ///  - topOffset        : This dictates the top offset of the border. Defaults to 0
+    ///  - bottomOffset : This dictates the bottom offset of the border. Defaults to 0
+    func addBorders(edges: UIRectEdge = .all, width: CGFloat = 0.5, color: UIColor = UIColor.separator, leftOffset: CGFloat = 0, rightOffset: CGFloat = 0, topOffset: CGFloat = 0, bottomOffset: CGFloat = 0) {
+        // If all edges is selected just add the border width and color to the view's current layer
+        if edges.contains(.all) {
+            layer.borderWidth = width
+            layer.borderColor = color.cgColor
+        } else {
+            // if it's not all we need to determine which one should have a border
+            let allSpecificBorders: [UIRectEdge] = [.top, .bottom, .left, .right]
+            
+            for edge in allSpecificBorders {
+                // get a hash value of this. Need to know if we need to remove it before adding
+                let hashValue = self.hashValue
+                let stringHashValue = String(hashValue)
+                let edgeRawValue = String(Int(edge.rawValue))
+                let newHashValue = (stringHashValue + edgeRawValue)
+                let tagValue = Int(newHashValue) ?? 1 // default is 1 which should not be the case
+                
+                if let v = viewWithTag(tagValue) {
+                    v.removeFromSuperview()
+                }
+                // each each we need to check if we are allowed to add the border to the given edge
+                if edges.contains(edge) {
+                    let v = UIView()
+                    v.tag = Int(tagValue)
+                    v.backgroundColor = color
+                    v.translatesAutoresizingMaskIntoConstraints = false
+                    addSubview(v)
+                    
+                    var horizontalVisualFormat = "H:"
+                    var verticalVisualFormat = "V:"
+                    
+                    switch edge {
+                    case UIRectEdge.bottom:
+                        horizontalVisualFormat += "|-(\(0 + leftOffset)@999)-[v]-(\(rightOffset)@999)-|"
+                        verticalVisualFormat += "[v(\(width))]-(0)-|"
+                    case UIRectEdge.top:
+                        horizontalVisualFormat += "|-(\(0 + leftOffset)@999)-[v]-(\(rightOffset)@999)-|"
+                        verticalVisualFormat += "|-(0@999)-[v(\(width)@999)]"
+                    case UIRectEdge.left:
+                        horizontalVisualFormat += "|-(0@999)-[v(\(width)@999)]"
+                        verticalVisualFormat += "|-(\(topOffset)@999)-[v]-(\(bottomOffset)@999)-|"
+                    case UIRectEdge.right:
+                        horizontalVisualFormat += "[v(\(width)@999)]-(0@999)-|"
+                        verticalVisualFormat += "|-(\(topOffset)@999)-[v]-(\(bottomOffset)@999)-|"
+                    default:
+                        break
+                    }
+                    
+                    self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: horizontalVisualFormat, options: .directionLeadingToTrailing, metrics: nil, views: ["v": v]))
+                    self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: verticalVisualFormat, options: .directionLeadingToTrailing, metrics: nil, views: ["v": v]))
+                }
+            }
+        }
+    }
+    
+    /// Method for removing borders.
+    ///
+    /// - Parameter edges: This takes in the edges that we want to remove
+    func removeBorders(edges: UIRectEdge = .all) {
+        let allSpecificBorders: [UIRectEdge] = [.top, .bottom, .left, .right]
+        
+        for edge in allSpecificBorders {
+            let hashValue = self.hashValue
+            let stringHashValue = String(hashValue)
+            let edgeRawValue = String(Int(edge.rawValue))
+            let newHashValue = (stringHashValue + edgeRawValue)
+            let tagValue = Int(newHashValue) ?? 1 // default is 1 which should not be the case
+            
+            if let v = viewWithTag(tagValue) {
+                v.removeFromSuperview()
+            }
+        }
+    }
+
 }
