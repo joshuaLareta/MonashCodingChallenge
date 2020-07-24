@@ -12,7 +12,7 @@ class CarParkDetailTableViewCell: BaseTableViewCell {
     let title: UILabel = {
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.text = "asdf"
+        title.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         return title
     }()
     
@@ -47,28 +47,21 @@ class CarParkDetailTableViewCell: BaseTableViewCell {
     }
     
     private func setupConstraints() {
-        self.containerView.addConstraint(NSLayoutConstraint(item: colorContainer,
-                                                            attribute: .centerX,
-                                                            relatedBy: .equal,
-                                                            toItem: self.containerView,
-                                                            attribute: .centerX,
-                                                            multiplier: 1,
-                                                            constant: 50))
-        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[title]->=10-[colorContainer]->=5-[total]-20-|",
+        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[title]->=10-[colorContainer]-20-[total]-20-|",
                                                                          options: [],
                                                                          metrics: nil,
                                                                          views: ["title": title, "colorContainer": colorContainer, "total": total]))
         
-        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[title]-10-|",
+        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[title]-20-|",
                                                                          options: [],
                                                                          metrics: nil,
                                                                          views: ["title": title]))
-        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[colorContainer]-10-|",
+        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[colorContainer]-20-|",
                                                                          options: [],
                                                                          metrics: nil,
                                                                          views: ["colorContainer": colorContainer]))
         
-        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[total]-10-|",
+        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[total]-20-|",
                                                                          options: [],
                                                                          metrics: nil,
                                                                          views: ["total": total]))
@@ -88,7 +81,7 @@ extension CarParkDetailTableViewCell {
         let color = UIView()
         color.translatesAutoresizingMaskIntoConstraints = false
         color.cornerRadius(6)
-        color.backgroundColor = UIColor(red: random, green: random, blue: random, alpha: 1)
+        color.backgroundColor = UIColor(red: random, green: random, blue: random, alpha: 0.5)
         return color
     }
     

@@ -23,7 +23,7 @@ class InfoView: UIView {
     let subTitle: UILabel = {
         let subTitle = UILabel()
         subTitle.translatesAutoresizingMaskIntoConstraints = false
-        subTitle.font = UIFont.systemFont(ofSize: 12)
+        subTitle.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         subTitle.textColor = .gray
         subTitle.setContentHuggingPriority(.required, for: .vertical)
         subTitle.setContentCompressionResistancePriority(.required, for: .vertical)

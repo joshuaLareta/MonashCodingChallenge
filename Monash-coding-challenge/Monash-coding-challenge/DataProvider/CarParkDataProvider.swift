@@ -13,8 +13,8 @@ protocol CarParkDataProviderProtocol: DataProviderProtocol  {
 }
 
 extension CarParkDataProviderProtocol {
-    var data: String? {
-        return """
+    var data: [String]? {
+        let first = """
         {
            "Carparks":[
                         {
@@ -35,19 +35,48 @@ extension CarParkDataProviderProtocol {
                       ]
         }
         """
+        let second = """
+        {
+           "Carparks":[
+                        {
+                         "location":"Building B ",
+                         "total":200,
+                         "available":1
+                        },
+                        {
+                         "location":"Building D ",
+                         "total":8,
+                         "available":2
+                        }
+                      ]
+        }
+        """
+        let third = """
+        {
+           "Carparks":[
+                       {
+                         "location":"Building D ",
+                         "total":8,
+                         "available":2
+                        }
+                      ]
+        }
+        """
+        return [first, second, third]
     }
 }
 
 class CarParkDataProvider: CarParkDataProviderProtocol {
     func requestData(_ completion: DataProviderCallback? = nil) {
-        guard let data = data?.data(using: .utf8) else {
+        let random = Int(arc4random() % 3)
+        guard let list = data, list.count > random, let data = list[random].data(using: .utf8) else {
             completion?(nil, DataProcessingError.error(withErrorCode: .cannotProcess) )
             return
         }
         do {
-            let decodedData = try JSONDecoder().decode([String: [Carpark]].self, from: data)
-            let carParks = Array(decodedData.values).first
-            completion?(carParks, nil)
+            let decodedData = try JSONDecoder().decode([String: ResponseData].self, from: data)
+            let data = Array(decodedData.values).first
+            completion?(data, nil)
         } catch {
             completion?(nil, error)
         }

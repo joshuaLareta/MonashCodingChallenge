@@ -79,27 +79,20 @@ extension BaseTableViewCell {
         if firstRow && lastRow {
             shadowRect.origin.y += 5
             shadowRect.size.height -= 5
-        }
-        else if firstRow {
+        } else if firstRow {
             shadowRect.origin.y += 10
         } else if lastRow {
             // we remove the bottom shadow for the last row (not fully showing it, only the excess radius)
             shadowRect.size.height -= 2
         }
-        
-        // If first Row and last row are the same (will only happen in single row table) we just add a shadow without editing the layer's mask
-        guard (firstRow && lastRow) == false else {
-            self.addShadow(offset: .zero,
-                           radius: 4,
-                           color: .lightGray,
-                           shadowPath: UIBezierPath(roundedRect: shadowRect, cornerRadius:0).cgPath)
-            return
-        }
               
         
         // This masks the unwanted shadow by adjusting the frame and covering it up
         var mask = self.contentView.bounds.insetBy(dx: -10, dy: 0)
-        if firstRow {
+        
+         if firstRow && lastRow {
+            mask.size.height += 10
+        } else if firstRow {
             // for the first row we start a bit higher and longer to not have a bleeding shadow
             mask.origin.y -= 10
             mask.size.height += 10
@@ -109,15 +102,15 @@ extension BaseTableViewCell {
         }
         
         // We use the convenience method for adding in a shadow to the view.
-        self.addShadow(offset: .zero,
+        self.contentView.addShadow(offset: .zero,
                        radius: 4,
                        color: .lightGray,
-                       shadowPath: UIBezierPath(roundedRect: shadowRect, cornerRadius:0).cgPath)
+                       shadowPath: UIBezierPath(roundedRect: shadowRect, cornerRadius: 0).cgPath)
         
         // Since we have the frame from the mask we need to convert it to a shape layer and add it to the layer's mask
         let maskLayer = CAShapeLayer()
         maskLayer.path = UIBezierPath(rect: mask).cgPath
         // assign it to the view's layer mask
-        self.layer.mask = maskLayer
+        self.contentView.layer.mask = maskLayer
     }
 }

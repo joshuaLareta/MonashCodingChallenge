@@ -96,7 +96,7 @@ class TableViewSectionHeaderView: UITableViewHeaderFooterView {
                                                                          metrics: nil,
                                                                          views: ["bannerContainer": bannerContainer, "moreOptionButton": moreOptionButton]))
         // configure the bannerContainer vertical aspect
-        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[bannerContainer(>=30@750)]->=0-|",
+        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[bannerContainer(>=30@750)]->=15-|",
                                                                          options: [],
                                                                          metrics: nil,
                                                                          views: ["bannerContainer": bannerContainer]))
@@ -122,7 +122,7 @@ class TableViewSectionHeaderView: UITableViewHeaderFooterView {
                                                                            options: [],
                                                                            metrics: nil,
                                                                            views: ["banner": banner]))
-        self.bannerContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-5-[banner]-5-|",
+        self.bannerContainer.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-5@99-[banner]-5@99-|",
                                                                            options: [],
                                                                            metrics: nil,
                                                                            views: ["banner": banner]))

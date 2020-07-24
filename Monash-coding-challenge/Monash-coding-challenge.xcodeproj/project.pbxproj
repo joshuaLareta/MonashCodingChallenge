@@ -33,6 +33,9 @@
 		42F2193524C9C55B00C84108 /* ScheduleDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2193424C9C55B00C84108 /* ScheduleDataProvider.swift */; };
 		42F2193724C9C59D00C84108 /* UserDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2193624C9C59D00C84108 /* UserDataProvider.swift */; };
 		42F2193924C9C86700C84108 /* CarParkDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2193824C9C86700C84108 /* CarParkDetailTableViewCell.swift */; };
+		42F2193B24C9E89600C84108 /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2193A24C9E89500C84108 /* Transport.swift */; };
+		42F2193D24C9E93A00C84108 /* TransportDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2193C24C9E93A00C84108 /* TransportDataProvider.swift */; };
+		42F2193F24C9F23C00C84108 /* TransportDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2193E24C9F23C00C84108 /* TransportDetailTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +79,9 @@
 		42F2193424C9C55B00C84108 /* ScheduleDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDataProvider.swift; sourceTree = "<group>"; };
 		42F2193624C9C59D00C84108 /* UserDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataProvider.swift; sourceTree = "<group>"; };
 		42F2193824C9C86700C84108 /* CarParkDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarParkDetailTableViewCell.swift; sourceTree = "<group>"; };
+		42F2193A24C9E89500C84108 /* Transport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
+		42F2193C24C9E93A00C84108 /* TransportDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportDataProvider.swift; sourceTree = "<group>"; };
+		42F2193E24C9F23C00C84108 /* TransportDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportDetailTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +163,7 @@
 				42F2192424C987C000C84108 /* ClassSchedule.swift */,
 				42F2192624C987D800C84108 /* Carpark.swift */,
 				42F2192E24C9B4C700C84108 /* TableSections.swift */,
+				42F2193A24C9E89500C84108 /* Transport.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -196,6 +203,7 @@
 				42F2191024C8490700C84108 /* BaseTableViewCell.swift */,
 				42F2192024C890F000C84108 /* TimeAndInfoTableViewCell.swift */,
 				42F2193824C9C86700C84108 /* CarParkDetailTableViewCell.swift */,
+				42F2193E24C9F23C00C84108 /* TransportDetailTableViewCell.swift */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -224,6 +232,7 @@
 				42F2193224C9C50C00C84108 /* CarParkDataProvider.swift */,
 				42F2193424C9C55B00C84108 /* ScheduleDataProvider.swift */,
 				42F2193624C9C59D00C84108 /* UserDataProvider.swift */,
+				42F2193C24C9E93A00C84108 /* TransportDataProvider.swift */,
 			);
 			path = DataProvider;
 			sourceTree = "<group>";
@@ -338,11 +347,13 @@
 			files = (
 				42F2192324C9874900C84108 /* User.swift in Sources */,
 				42F2190524C8401600C84108 /* InfoViewController.swift in Sources */,
+				42F2193F24C9F23C00C84108 /* TransportDetailTableViewCell.swift in Sources */,
 				42F2192A24C9894600C84108 /* DataProvider.swift in Sources */,
 				42F2191624C84B1900C84108 /* InfoView.swift in Sources */,
 				42F2192F24C9B4C700C84108 /* TableSections.swift in Sources */,
 				42F2191A24C8569200C84108 /* Color+Extensions.swift in Sources */,
 				42E84A0724C8278400F60050 /* AppDelegate.swift in Sources */,
+				42F2193B24C9E89600C84108 /* Transport.swift in Sources */,
 				42F2190D24C8458600C84108 /* TableView+Extensions.swift in Sources */,
 				42F2190724C8402800C84108 /* InfoManager.swift in Sources */,
 				42F2192724C987D800C84108 /* Carpark.swift in Sources */,
@@ -355,6 +366,7 @@
 				42F2192D24C9A23D00C84108 /* DataProcessingError.swift in Sources */,
 				42F2191824C854A400C84108 /* NavigationController+Extensions.swift in Sources */,
 				42F2192124C890F000C84108 /* TimeAndInfoTableViewCell.swift in Sources */,
+				42F2193D24C9E93A00C84108 /* TransportDataProvider.swift in Sources */,
 				42F2193324C9C50C00C84108 /* CarParkDataProvider.swift in Sources */,
 				42F2192524C987C000C84108 /* ClassSchedule.swift in Sources */,
 				42F2193524C9C55B00C84108 /* ScheduleDataProvider.swift in Sources */,

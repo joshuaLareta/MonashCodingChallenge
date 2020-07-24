@@ -13,8 +13,8 @@ protocol ScheduleDataProviderProtocol: DataProviderProtocol  {
 }
 
 extension ScheduleDataProviderProtocol {
-    var data: String? {
-        return """
+    var data: [String]? {
+        let first = """
         {
            "schedules":[
                         {
@@ -41,12 +41,48 @@ extension ScheduleDataProviderProtocol {
                       ]
         }
         """
+        
+        let second = """
+        {
+           "schedules":[
+                        {
+                         "start":"2020-07-01T21:35:00Z",
+                         "end":"2020-07-01T22:30:00Z",
+                         "subject":"CS 101 - Algo",
+                         "educator":"John John",
+                         "location":"C building 3B "
+                        },
+                        {
+                        "start":"2020-07-01T01:35:00Z",
+                        "end":"2020-07-01T02:30:00Z",
+                        "subject":"CS 103 - Game Dev",
+                        "educator":"John three",
+                        "location":"C building 3B "
+                        }
+                      ]
+        }
+        """
+        let third = """
+               {
+                  "schedules":[
+                               {
+                                "start":"2020-07-01T21:35:00Z",
+                                "end":"2020-07-01T22:30:00Z",
+                                "subject":"CS 101 - Algo",
+                                "educator":"John John",
+                                "location":"C building 3B "
+                               }
+                             ]
+               }
+               """
+        return [first, second, third]
     }
 }
 
 class ScheduleDataProvider: ScheduleDataProviderProtocol {
     func requestData(_ completion: DataProviderCallback? = nil) {
-        guard let data = data?.data(using: .utf8) else {
+        let random = Int(arc4random() % 3)
+        guard let list = data, list.count > random, let data = list[random].data(using: .utf8) else {
             completion?(nil, DataProcessingError.error(withErrorCode: .cannotProcess) )
             return
         }

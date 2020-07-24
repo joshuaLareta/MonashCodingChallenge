@@ -11,12 +11,14 @@ import UIKit
 enum DataSection {
     case schedules(_ list: [ClassSchedule])
     case carparks(_ list: [Carpark])
-    case transport(_ list: [String])
+    case transport(_ list: [Transport])
     
     var title: String? {
         switch self {
         case .carparks:
             return NSLocalizedString("Available car parks", comment: "Available car parks title")
+        case .transport:
+            return NSLocalizedString("Intercampus Shuttle Bus", comment: "intercampu shuttle bus title")
         default:
             return nil
         }

@@ -31,6 +31,7 @@ class TimeAndInfoTableViewCell: BaseTableViewCell {
     let title: UILabel = {
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
+        title.adjustsFontSizeToFitWidth = true
         title.textAlignment = .center
         title.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
         return title
@@ -41,6 +42,7 @@ class TimeAndInfoTableViewCell: BaseTableViewCell {
         subTitle.translatesAutoresizingMaskIntoConstraints = false
         subTitle.numberOfLines = 0
         subTitle.lineBreakMode = .byWordWrapping
+        subTitle.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         subTitle.setContentHuggingPriority(.required, for: .horizontal)
         subTitle.setContentCompressionResistancePriority(.required, for: .horizontal)
         return subTitle
@@ -57,7 +59,7 @@ class TimeAndInfoTableViewCell: BaseTableViewCell {
     let dateStack: UIStackView = {
         let dateStack = UIStackView()
         dateStack.translatesAutoresizingMaskIntoConstraints = false
-        dateStack.alignment = .center
+        dateStack.alignment = .leading
         dateStack.distribution = .fill
         dateStack.axis = .vertical
         dateStack.spacing = 5
@@ -101,7 +103,7 @@ class TimeAndInfoTableViewCell: BaseTableViewCell {
         // we are using the containerView instead of the contentView as we want to have the left and right padding without affecting the natural behaviour of content
         
         // This sets the dateStack, separator, and info stack's horizontal layout
-        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[dateStack]-5-[separator(==2.5)]-20-[infoStack]->=0-|",
+        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[dateStack]-5-[separator(==2.5)]-20-[infoStack]->=20-|",
                                                                          options: [],
                                                                          metrics: nil,
                                                                          views: ["dateStack": dateStack, "separator": separator, "infoStack": infoStack]))
@@ -148,7 +150,7 @@ extension TimeAndInfoTableViewCell {
     ///
     /// If you call this before cell returns in `CellForRow:` this should work as expected. If the cell has already returned, the cell's other constraints are already in placed for this to refresh you need to call a reload on the tableview to make sure it reinitialized all the constraints again
     func updateCellDistribution(width: CGFloat) {
-          self.dateStackWidthConstraints.constant = width * 0.3 // get the 30% of the container's frame
+          self.dateStackWidthConstraints.constant = width * 0.25 // get the 25% of the container's frame
     }
     
     /// Method that updates the elements content

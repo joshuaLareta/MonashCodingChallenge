@@ -32,6 +32,12 @@ class InfoViewController: UIViewController {
         return [UIBarButtonItem(customView: profileImage), UIBarButtonItem(customView: bell)]
     }()
     
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+        return refreshControl
+    }()
+    
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundView = nil
@@ -40,6 +46,7 @@ class InfoViewController: UIViewController {
         tableView.estimatedRowHeight = Constant.rowHeight
         // Register the needed cells
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.identifier)
+        tableView.register(TransportDetailTableViewCell.self, forCellReuseIdentifier: TransportDetailTableViewCell.identifier)
         tableView.register(TimeAndInfoTableViewCell.self, forCellReuseIdentifier: TimeAndInfoTableViewCell.identifier)
         tableView.register(CarParkDetailTableViewCell.self, forCellReuseIdentifier: CarParkDetailTableViewCell.identifier)
         tableView.register(TableViewSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: TableViewSectionHeaderView.identifier)
@@ -49,6 +56,8 @@ class InfoViewController: UIViewController {
         tableView.scrollIndicatorInsets = UIEdgeInsets(top: Constant.tableOffset, left: 0, bottom: 0, right: 0)
         tableView.setContentOffset(CGPoint(x: 0, y: -Constant.tableOffset), animated: false)
         tableView.separatorStyle = .none
+        
+        tableView.refreshControl = refreshControl
         // set the cell's datasource and delegate
         tableView.delegate = self
         tableView.dataSource = self
@@ -93,6 +102,7 @@ class InfoViewController: UIViewController {
         infoView.update(title: manager.getUserName(), subTitle: manager.getCurrentDate())
         self.navigationItem.leftBarButtonItem = leftBarButton
         self.navigationItem.rightBarButtonItems = rightBarButtons
+        managerBindings()
         // Do any additional setup after loading the view.
     }
     
@@ -104,6 +114,18 @@ class InfoViewController: UIViewController {
 }
 
 extension InfoViewController {
+    
+    /// Method that handles all manager bindings
+    private func managerBindings() {
+        manager.needsRefreshBlock = { [weak self] in
+            guard let `self` = self else { return }
+            DispatchQueue.main.async {
+                self.refreshControl.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     /// Method that updates the navigation color.
     ///
     /// Since we don't have root that sets things up. The first instance of a controller should be controlling the overview appearance of a navigationbar.
@@ -120,12 +142,10 @@ extension InfoViewController: UITableViewDelegate {
         case .schedules:
             guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewSectionHeaderView.identifier) else { return nil }
             return header
-        case .carparks:
+        case .carparks, .transport:
             guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableviewSectionHeaderTitleView.identifier) as? TableviewSectionHeaderTitleView else { return nil }
             header.update(title: item.section.title)
             return header
-        default:
-            return nil
         }
     }
     
@@ -135,6 +155,7 @@ extension InfoViewController: UITableViewDelegate {
          cell.addShadow(tableView, indexPath: indexPath)
     }
 }
+
 // TableView's DataSource methods
 extension InfoViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -150,21 +171,49 @@ extension InfoViewController: UITableViewDataSource {
         guard let item = manager.item(atSection: indexPath.section) else {
             return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
         }
+        var cell: UITableViewCell!
         
         // Let's determine how to process the data
         switch item.section {
         case .schedules(let list):
-            return processScheduleCells(tableView, items: list, indexPath: indexPath)
+            cell = processScheduleCells(tableView, items: list, indexPath: indexPath)
         case .carparks(let list):
-            return processCarParkCells(tableView, items: list, indexPath: indexPath)
-        default:
-            return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
+            cell = processCarParkCells(tableView, items: list, indexPath: indexPath)
+        case .transport(let list):
+            cell = processTransportCells(tableView, items: list, indexPath: indexPath)
         }
+        
+        return cell
     }
 }
 
 // Format Cells based on what needs to be displayed
 extension InfoViewController {
+    
+    private func carParkAndTransportCellBorder(_ tableView: UITableView, cell: BaseTableViewCell, indexPath: IndexPath) {
+        if indexPath.row == 0 && indexPath.row == (tableView.numberOfRows(inSection: indexPath.section) - 1){
+            cell.containerView.removeBorders(edges: .bottom)
+            cell.containerView.cornerRadius(Constant.lastCellCornerRadius, sides: [.leftTop,.rightTop, .leftBottom, .rightBottom])
+        } else if indexPath.row == 0 { // check first cell
+            cell.containerView.addBorders(edges: .bottom,
+                                          width: 1,
+                                          color: UIColor.cellSeparatorColor.withAlphaComponent(0.5),
+                                          leftOffset: 20,
+                                          rightOffset: 20)
+            cell.containerView.cornerRadius(Constant.lastCellCornerRadius, sides: [.leftTop, .rightTop])
+        } else if indexPath.row != (tableView.numberOfRows(inSection: indexPath.section) - 1) { // if it's not the last item we add borders to it
+            cell.containerView.addBorders(edges: .bottom,
+                                          width: 1,
+                                          color: UIColor.cellSeparatorColor.withAlphaComponent(0.5),
+                                          leftOffset: 20,
+                                          rightOffset: 20)
+            // remove if its not the last cell. This is because cells are being reused
+            cell.containerView.cornerRadius(0, sides: [.leftBottom, .rightBottom])
+        } else {
+            cell.containerView.removeBorders(edges: .bottom)
+            cell.containerView.cornerRadius(Constant.lastCellCornerRadius, sides: [.leftBottom, .rightBottom])
+        }
+    }
     /// This Method holds the process of applying the `Schedule` data to the cell.
     ///
     /// - Parameters:
@@ -200,6 +249,7 @@ extension InfoViewController {
             cell.containerView.removeBorders(edges: .bottom)
             cell.containerView.cornerRadius(Constant.lastCellCornerRadius, sides: [.leftBottom, .rightBottom])
         }
+        
         return cell
     }
     
@@ -220,26 +270,33 @@ extension InfoViewController {
                     available: item.available,
                     total: item.total,
                     healthCheck: item.carSpaceHealthCheck())
-        if indexPath.row == 0 { // check first cell
-            cell.containerView.addBorders(edges: .bottom,
-                                          width: 1,
-                                          color: UIColor.cellSeparatorColor.withAlphaComponent(0.5),
-                                          leftOffset: 20,
-                                          rightOffset: 20)
-            cell.containerView.cornerRadius(Constant.lastCellCornerRadius, sides: [.leftTop, .rightTop])
-        } else if indexPath.row != (tableView.numberOfRows(inSection: indexPath.section) - 1) { // check if it's the last item
-            cell.containerView.addBorders(edges: .bottom,
-                                          width: 1,
-                                          color: UIColor.cellSeparatorColor.withAlphaComponent(0.5),
-                                          leftOffset: 20,
-                                          rightOffset: 20)
-            // remove if its not the last cell. This is because cells are being reused
-            cell.containerView.cornerRadius(0, sides: [.leftBottom, .rightBottom])
-        } else {
-            cell.containerView.removeBorders(edges: .bottom)
-            cell.containerView.cornerRadius(Constant.lastCellCornerRadius, sides: [.leftBottom, .rightBottom])
-        }
+        carParkAndTransportCellBorder(tableView, cell: cell, indexPath: indexPath)
         return cell
     }
     
+    /// This Method holds the process of applying the `Car Park` data to the cell.
+    ///
+    /// - Parameters:
+    ///   - tableView : TableView instance
+    ///   - items          : This is the item that needs to be displayed
+    ///   - indexPath : The position of the item. We mostly use  `IndexPath.row` to access `Items`
+    private func processTransportCells(_ tableView: UITableView, items: [Transport], indexPath: IndexPath) -> UITableViewCell {
+        guard items.count > indexPath.row,
+            let cell = tableView.dequeueReusableCell(withIdentifier: TransportDetailTableViewCell.identifier, for: indexPath) as? TransportDetailTableViewCell else {
+                return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
+        }
+        
+        let item = items[indexPath.row]
+        cell.update(from: item.from, to: item.to, travelTime: item.travelTimeDisplay())
+        carParkAndTransportCellBorder(tableView, cell: cell, indexPath: indexPath)
+        return cell
+    }
+    
+}
+
+extension InfoViewController {
+    @objc
+    private func didPullToRefresh() {
+        manager.requestAllData()
+    }
 }

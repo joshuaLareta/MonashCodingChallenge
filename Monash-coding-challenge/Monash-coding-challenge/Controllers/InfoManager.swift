@@ -9,23 +9,27 @@
 import Foundation
 
 class InfoManager {
+    typealias NeedsRefreshBlock = () -> Void
     var userProvider: UserDataProvider = UserDataProvider() // assign the data provider
     var scheduleProvider: ScheduleDataProvider = ScheduleDataProvider()
     var carparkProvider: CarParkDataProvider = CarParkDataProvider()
+    var transportProvider: TransportDataProvider = TransportDataProvider()
+    
+    var needsRefreshBlock: NeedsRefreshBlock?
     
     private var schedules: [ClassSchedule] = []
     private var user: User?
     private var carparks: [Carpark] = []
+    private var transport: [Transport] = []
     
     var items: [TableSections] = []
     
     init() {
-        requestSchedules()
-        requestUserData()
-        requestCarParkData()
-        processItems()
+       requestAllData()
         // Request this should not be here, for the sake of this test we'll call it as soon as we initialized the managaer
     }
+    
+    
 }
 
 extension InfoManager {
@@ -38,17 +42,31 @@ extension InfoManager {
         if carparks.isEmpty == false {
             items.append(TableSections(section: .carparks(carparks)))
         }
-        // add other things here
+        if transport.isEmpty == false {
+            items.append(TableSections(section: .transport(transport)))
+        }
+        needsRefreshBlock?()
     }
 }
 
 extension InfoManager {
     
+    func requestAllData() {
+        requestSchedules()
+        requestUserData()
+        requestCarParkData()
+        requestTransportData()
+        processItems()
+    }
+    
     // Fetches all the schedules
     func requestSchedules() {
         scheduleProvider.requestData { [weak self] (data, error) in
              guard let `self` = self else { return }
-            print(error)
+            // log error or show it to the user
+            if let error = error {
+                print(error.localizedDescription)
+            }
             self.schedules = data ?? []
         }
     }
@@ -57,7 +75,10 @@ extension InfoManager {
     func requestUserData() {
         userProvider.requestData { [weak self] data, error in
             guard let `self` = self else { return }
-            print(error) // print error if it exist
+            // log error or show it to the user
+            if let error = error {
+                print(error.localizedDescription)
+            }
             self.user = data
         }
     }
@@ -65,8 +86,22 @@ extension InfoManager {
     func requestCarParkData() {
         carparkProvider.requestData { [weak self] (data, error) in
             guard let `self` = self else { return }
-            print(error) // print error if it exist
+            // log error or show it to the user
+            if let error = error {
+                print(error.localizedDescription)
+            }
             self.carparks = data ?? []
+        }
+    }
+    
+    func requestTransportData() {
+        transportProvider.requestData { [weak self] (data, error) in
+            guard let `self` = self else { return }
+            // log error or show it to the user
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            self.transport = data ?? []
         }
     }
 }

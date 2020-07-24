@@ -15,7 +15,3 @@ protocol DataProviderProtocol {
     typealias DataProviderCallback = (_ data: ResponseData?, _ error: Error?) -> Void
     func requestData(_ completion: DataProviderCallback?)
 }
-
-protocol TransportDataProviderProtocol: DataProviderProtocol  {
-    typealias ResponseData = [ClassSchedule]
-}

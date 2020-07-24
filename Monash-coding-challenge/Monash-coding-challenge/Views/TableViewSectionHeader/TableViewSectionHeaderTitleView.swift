@@ -13,7 +13,7 @@ class TableviewSectionHeaderTitleView: UITableViewHeaderFooterView {
     let title: UILabel = {
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.font = UIFont.systemFont(ofSize: 14)
+        title.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         title.textColor = .gray
         return title
     }()
