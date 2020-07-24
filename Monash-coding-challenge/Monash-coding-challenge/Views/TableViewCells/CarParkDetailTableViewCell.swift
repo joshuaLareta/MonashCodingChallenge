@@ -12,6 +12,8 @@ class CarParkDetailTableViewCell: BaseTableViewCell {
     let title: UILabel = {
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
+        title.numberOfLines = 2
+        title.adjustsFontSizeToFitWidth = true
         title.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         return title
     }()
@@ -20,6 +22,12 @@ class CarParkDetailTableViewCell: BaseTableViewCell {
         let colorContainer = UIView()
         colorContainer.translatesAutoresizingMaskIntoConstraints = false
         return colorContainer
+    }()
+    
+    let midView: UIView = {
+        let midView = UIView()
+        midView.translatesAutoresizingMaskIntoConstraints = false
+        return midView
     }()
     
     let total: UILabel = {
@@ -40,31 +48,44 @@ class CarParkDetailTableViewCell: BaseTableViewCell {
     }
        
     private func setupSelf() {
+        self.midView.addSubview(colorContainer)
         self.containerView.addSubview(title)
-        self.containerView.addSubview(colorContainer)
+        self.containerView.addSubview(midView)
         self.containerView.addSubview(total)
         setupConstraints()
+        setupMidViewConstraints()
     }
     
     private func setupConstraints() {
-        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[title]->=10-[colorContainer]-20-[total]-20-|",
+        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[title]-10-[midView]-20-[total(==30)]-20-|",
                                                                          options: [],
                                                                          metrics: nil,
-                                                                         views: ["title": title, "colorContainer": colorContainer, "total": total]))
+                                                                         views: ["title": title, "midView": midView, "total": total]))
         
         self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[title]-20-|",
                                                                          options: [],
                                                                          metrics: nil,
                                                                          views: ["title": title]))
-        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[colorContainer]-20-|",
+        self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[midView]-20-|",
                                                                          options: [],
                                                                          metrics: nil,
-                                                                         views: ["colorContainer": colorContainer]))
+                                                                         views: ["midView": midView]))
         
         self.containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[total]-20-|",
                                                                          options: [],
                                                                          metrics: nil,
                                                                          views: ["total": total]))
+    }
+    
+    private func setupMidViewConstraints() {
+        self.midView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|->=0-[colorContainer]|",
+                                                                   options: [],
+                                                                   metrics: nil,
+                                                                   views: ["colorContainer": colorContainer]))
+        self.midView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[colorContainer]|",
+                                                                          options: [],
+                                                                          metrics: nil,
+                                                                          views: ["colorContainer": colorContainer]))
     }
 }
 

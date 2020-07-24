@@ -11,7 +11,7 @@ import UIKit
 class TransportDetailTableViewCell: BaseTableViewCell {
     
     private struct Constant {
-        static let imageDimension: CGFloat = 18
+        static let imageDimension: CGFloat = 20
         static let padding: CGFloat = 20
     }
 

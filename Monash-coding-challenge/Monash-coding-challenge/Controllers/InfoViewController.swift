@@ -99,11 +99,11 @@ class InfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        infoView.update(title: manager.getUserName(), subTitle: manager.getCurrentDate())
         self.navigationItem.leftBarButtonItem = leftBarButton
         self.navigationItem.rightBarButtonItems = rightBarButtons
         managerBindings()
         manager.requestAllData()
+        infoView.update(title: manager.getUserName(), subTitle: manager.getCurrentDate())
         // Do any additional setup after loading the view.
     }
     

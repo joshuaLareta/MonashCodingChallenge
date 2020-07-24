@@ -150,7 +150,7 @@ extension TimeAndInfoTableViewCell {
     ///
     /// If you call this before cell returns in `CellForRow:` this should work as expected. If the cell has already returned, the cell's other constraints are already in placed for this to refresh you need to call a reload on the tableview to make sure it reinitialized all the constraints again
     func updateCellDistribution(width: CGFloat) {
-          self.dateStackWidthConstraints.constant = width * 0.25 // get the 25% of the container's frame
+          self.dateStackWidthConstraints.constant = width * 0.22 // get the 22% of the container's frame
     }
     
     func prettifySubTitle(_ subtitle: String?) -> NSAttributedString? {

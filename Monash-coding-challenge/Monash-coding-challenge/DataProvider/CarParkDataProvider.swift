@@ -26,12 +26,12 @@ extension CarParkDataProviderProtocol {
                         {
                          "location":"Building C",
                          "total":18,
-                         "available":9
+                         "available":18
                         },
                         {
                          "location":"Building D ",
                          "total":8,
-                         "available":2
+                         "available":3
                         }
                       ]
         }
@@ -40,12 +40,12 @@ extension CarParkDataProviderProtocol {
         {
            "Carparks":[
                         {
-                         "location":"Building B ",
+                         "location":"Building B Live Feed",
                          "total":200,
-                         "available":1
+                         "available":200
                         },
                         {
-                         "location":"Building D ",
+                         "location":"Building D Broadcast",
                          "total":8,
                          "available":2
                         }
