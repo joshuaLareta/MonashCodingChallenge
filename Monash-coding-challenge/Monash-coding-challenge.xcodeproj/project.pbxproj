@@ -10,7 +10,7 @@
 		42E84A0724C8278400F60050 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E84A0624C8278400F60050 /* AppDelegate.swift */; };
 		42E84A0D24C8278700F60050 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42E84A0C24C8278700F60050 /* Assets.xcassets */; };
 		42E84A1324C8278700F60050 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42E84A1124C8278700F60050 /* LaunchScreen.storyboard */; };
-		42E84A1E24C8278700F60050 /* Monash_coding_challengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E84A1D24C8278700F60050 /* Monash_coding_challengeTests.swift */; };
+		42E84A1E24C8278700F60050 /* ScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E84A1D24C8278700F60050 /* ScheduleTests.swift */; };
 		42F2190524C8401600C84108 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2190424C8401600C84108 /* InfoViewController.swift */; };
 		42F2190724C8402800C84108 /* InfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2190624C8402800C84108 /* InfoManager.swift */; };
 		42F2190B24C8450300C84108 /* IdentifiableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2190A24C8450300C84108 /* IdentifiableProtocol.swift */; };
@@ -25,7 +25,6 @@
 		42F2192324C9874900C84108 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2192224C9874900C84108 /* User.swift */; };
 		42F2192524C987C000C84108 /* ClassSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2192424C987C000C84108 /* ClassSchedule.swift */; };
 		42F2192724C987D800C84108 /* Carpark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2192624C987D800C84108 /* Carpark.swift */; };
-		42F2192A24C9894600C84108 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2192924C9894600C84108 /* DataProvider.swift */; };
 		42F2192D24C9A23D00C84108 /* DataProcessingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2192C24C9A23D00C84108 /* DataProcessingError.swift */; };
 		42F2192F24C9B4C700C84108 /* TableSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2192E24C9B4C700C84108 /* TableSections.swift */; };
 		42F2193124C9BF2700C84108 /* TableViewSectionHeaderTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2193024C9BF2700C84108 /* TableViewSectionHeaderTitleView.swift */; };
@@ -36,6 +35,10 @@
 		42F2193B24C9E89600C84108 /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2193A24C9E89500C84108 /* Transport.swift */; };
 		42F2193D24C9E93A00C84108 /* TransportDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2193C24C9E93A00C84108 /* TransportDataProvider.swift */; };
 		42F2193F24C9F23C00C84108 /* TransportDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2193E24C9F23C00C84108 /* TransportDetailTableViewCell.swift */; };
+		42F2194124CA832200C84108 /* MockedDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2194024CA832200C84108 /* MockedDataProvider.swift */; };
+		42F2194324CA9A0300C84108 /* CarParkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2194224CA9A0300C84108 /* CarParkTests.swift */; };
+		42F2194524CA9D7700C84108 /* TransportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2194424CA9D7700C84108 /* TransportTests.swift */; };
+		42F2194724CA9F8B00C84108 /* InfoManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2194624CA9F8B00C84108 /* InfoManagerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +58,7 @@
 		42E84A1224C8278700F60050 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		42E84A1424C8278700F60050 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		42E84A1924C8278700F60050 /* Monash-coding-challengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Monash-coding-challengeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		42E84A1D24C8278700F60050 /* Monash_coding_challengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monash_coding_challengeTests.swift; sourceTree = "<group>"; };
+		42E84A1D24C8278700F60050 /* ScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTests.swift; sourceTree = "<group>"; };
 		42E84A1F24C8278700F60050 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		42F2190424C8401600C84108 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		42F2190624C8402800C84108 /* InfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoManager.swift; sourceTree = "<group>"; };
@@ -71,7 +74,6 @@
 		42F2192224C9874900C84108 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		42F2192424C987C000C84108 /* ClassSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassSchedule.swift; sourceTree = "<group>"; };
 		42F2192624C987D800C84108 /* Carpark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Carpark.swift; sourceTree = "<group>"; };
-		42F2192924C9894600C84108 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		42F2192C24C9A23D00C84108 /* DataProcessingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProcessingError.swift; sourceTree = "<group>"; };
 		42F2192E24C9B4C700C84108 /* TableSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSections.swift; sourceTree = "<group>"; };
 		42F2193024C9BF2700C84108 /* TableViewSectionHeaderTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSectionHeaderTitleView.swift; sourceTree = "<group>"; };
@@ -82,6 +84,10 @@
 		42F2193A24C9E89500C84108 /* Transport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
 		42F2193C24C9E93A00C84108 /* TransportDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportDataProvider.swift; sourceTree = "<group>"; };
 		42F2193E24C9F23C00C84108 /* TransportDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportDetailTableViewCell.swift; sourceTree = "<group>"; };
+		42F2194024CA832200C84108 /* MockedDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedDataProvider.swift; sourceTree = "<group>"; };
+		42F2194224CA9A0300C84108 /* CarParkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarParkTests.swift; sourceTree = "<group>"; };
+		42F2194424CA9D7700C84108 /* TransportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportTests.swift; sourceTree = "<group>"; };
+		42F2194624CA9F8B00C84108 /* InfoManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoManagerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,7 +147,11 @@
 		42E84A1C24C8278700F60050 /* Monash-coding-challengeTests */ = {
 			isa = PBXGroup;
 			children = (
-				42E84A1D24C8278700F60050 /* Monash_coding_challengeTests.swift */,
+				42F2194024CA832200C84108 /* MockedDataProvider.swift */,
+				42F2194624CA9F8B00C84108 /* InfoManagerTests.swift */,
+				42F2194424CA9D7700C84108 /* TransportTests.swift */,
+				42E84A1D24C8278700F60050 /* ScheduleTests.swift */,
+				42F2194224CA9A0300C84108 /* CarParkTests.swift */,
 				42E84A1F24C8278700F60050 /* Info.plist */,
 			);
 			path = "Monash-coding-challengeTests";
@@ -228,7 +238,6 @@
 		42F2192824C9893000C84108 /* DataProvider */ = {
 			isa = PBXGroup;
 			children = (
-				42F2192924C9894600C84108 /* DataProvider.swift */,
 				42F2193224C9C50C00C84108 /* CarParkDataProvider.swift */,
 				42F2193424C9C55B00C84108 /* ScheduleDataProvider.swift */,
 				42F2193624C9C59D00C84108 /* UserDataProvider.swift */,
@@ -348,7 +357,6 @@
 				42F2192324C9874900C84108 /* User.swift in Sources */,
 				42F2190524C8401600C84108 /* InfoViewController.swift in Sources */,
 				42F2193F24C9F23C00C84108 /* TransportDetailTableViewCell.swift in Sources */,
-				42F2192A24C9894600C84108 /* DataProvider.swift in Sources */,
 				42F2191624C84B1900C84108 /* InfoView.swift in Sources */,
 				42F2192F24C9B4C700C84108 /* TableSections.swift in Sources */,
 				42F2191A24C8569200C84108 /* Color+Extensions.swift in Sources */,
@@ -378,7 +386,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42E84A1E24C8278700F60050 /* Monash_coding_challengeTests.swift in Sources */,
+				42F2194324CA9A0300C84108 /* CarParkTests.swift in Sources */,
+				42E84A1E24C8278700F60050 /* ScheduleTests.swift in Sources */,
+				42F2194124CA832200C84108 /* MockedDataProvider.swift in Sources */,
+				42F2194524CA9D7700C84108 /* TransportTests.swift in Sources */,
+				42F2194724CA9F8B00C84108 /* InfoManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,8 +8,9 @@
 
 import Foundation
 
-protocol ScheduleDataProviderProtocol: DataProviderProtocol  {
-    typealias ResponseData = [ClassSchedule]
+protocol ScheduleDataProviderProtocol  {
+    typealias ScheduleRequestCompletion = (_ data: [ClassSchedule]?, _ error: Error?) -> Void
+    func requestScheduleData(_ completion: ScheduleRequestCompletion?)
 }
 
 extension ScheduleDataProviderProtocol {
@@ -18,18 +19,11 @@ extension ScheduleDataProviderProtocol {
         {
            "schedules":[
                         {
-                         "start":"2020-07-01T21:35:00Z",
-                         "end":"2020-07-01T22:30:00Z",
+                         "start":"2020-07-01T03:35:00Z",
+                         "end":"2020-07-01T04:30:00Z",
                          "subject":"CS 101 - Algo",
                          "educator":"John John",
                          "location":"C building 3B "
-                        },
-                        {
-                         "start":"2020-07-01T23:35:00Z",
-                         "end":"2020-07-01T24:30:00Z",
-                         "subject":"CS 102 - Number Theory",
-                         "educator":"Jane M",
-                         "location":"C building 2B"
                         },
                         {
                         "start":"2020-07-01T01:35:00Z",
@@ -37,7 +31,14 @@ extension ScheduleDataProviderProtocol {
                         "subject":"CS 103 - Game Dev",
                         "educator":"John three",
                         "location":"C building 3B "
-                        }
+                        },
+                        {
+                        "start":"2020-07-01T05:35:00Z",
+                        "end":"2020-07-01T06:30:00Z",
+                        "subject":"CS 102 - Number Theory",
+                        "educator":"Jane M",
+                        "location":"C building 2B"
+                       },
                       ]
         }
         """
@@ -46,18 +47,18 @@ extension ScheduleDataProviderProtocol {
         {
            "schedules":[
                         {
-                         "start":"2020-07-01T21:35:00Z",
-                         "end":"2020-07-01T22:30:00Z",
-                         "subject":"CS 101 - Algo",
-                         "educator":"John John",
-                         "location":"C building 3B "
-                        },
-                        {
                         "start":"2020-07-01T01:35:00Z",
                         "end":"2020-07-01T02:30:00Z",
                         "subject":"CS 103 - Game Dev",
                         "educator":"John three",
                         "location":"C building 3B "
+                        },
+                        {
+                         "start":"2020-07-01T21:35:00Z",
+                         "end":"2020-07-01T22:30:00Z",
+                         "subject":"CS 101 - Algo",
+                         "educator":"John John",
+                         "location":"C building 3B "
                         }
                       ]
         }
@@ -80,7 +81,7 @@ extension ScheduleDataProviderProtocol {
 }
 
 class ScheduleDataProvider: ScheduleDataProviderProtocol {
-    func requestData(_ completion: DataProviderCallback? = nil) {
+    func requestScheduleData(_ completion: ScheduleRequestCompletion? = nil) {
         let random = Int(arc4random() % 3)
         guard let list = data, list.count > random, let data = list[random].data(using: .utf8) else {
             completion?(nil, DataProcessingError.error(withErrorCode: .cannotProcess) )

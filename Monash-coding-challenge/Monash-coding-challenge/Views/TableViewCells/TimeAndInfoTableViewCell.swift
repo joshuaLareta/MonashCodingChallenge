@@ -153,6 +153,15 @@ extension TimeAndInfoTableViewCell {
           self.dateStackWidthConstraints.constant = width * 0.25 // get the 25% of the container's frame
     }
     
+    func prettifySubTitle(_ subtitle: String?) -> NSAttributedString? {
+        guard let subtitle = subtitle else { return nil }
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineSpacing = 5
+      
+        return NSAttributedString(string: subtitle, attributes: [.paragraphStyle: paragraph])
+        
+    }
+    
     /// Method that updates the elements content
     ///
     /// - Parameters:
@@ -164,6 +173,12 @@ extension TimeAndInfoTableViewCell {
         self.startTime.text = start
         self.endTime.text = end
         self.title.text = title
-        self.subTitle.text = subTitle
+        
+        if let sub = subTitle {
+            self.subTitle.attributedText = prettifySubTitle(sub)
+        } else {
+            self.subTitle.text = nil
+            self.subTitle.attributedText = nil
+        }
     }
 }

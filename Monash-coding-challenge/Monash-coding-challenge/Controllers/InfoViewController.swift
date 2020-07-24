@@ -103,6 +103,7 @@ class InfoViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = leftBarButton
         self.navigationItem.rightBarButtonItems = rightBarButtons
         managerBindings()
+        manager.requestAllData()
         // Do any additional setup after loading the view.
     }
     

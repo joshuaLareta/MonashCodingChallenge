@@ -8,8 +8,9 @@
 
 import Foundation
 
-protocol TransportDataProviderProtocol: DataProviderProtocol  {
-    typealias ResponseData = [Transport]
+protocol TransportDataProviderProtocol  {
+    typealias TransportRequestCompletion = (_ data: [Transport]?, _ error: Error?) -> Void
+    func requestTransportData(_ completion: TransportRequestCompletion?)
 }
 
 extension TransportDataProviderProtocol {
@@ -68,7 +69,7 @@ extension TransportDataProviderProtocol {
 }
 
 class TransportDataProvider: TransportDataProviderProtocol {
-    func requestData(_ completion: DataProviderCallback? = nil) {
+    func requestTransportData(_ completion: TransportRequestCompletion? = nil) {
         let random = Int(arc4random() % 3)
         guard let list = data, list.count > random, let data = list[random].data(using: .utf8) else {
             completion?(nil, DataProcessingError.error(withErrorCode: .cannotProcess) )

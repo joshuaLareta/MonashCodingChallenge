@@ -9,8 +9,9 @@
 import Foundation
 
 // Expand the usage with other data provider
-protocol UserDataProviderProtocol: DataProviderProtocol {
-    typealias ResponseData = User
+protocol UserDataProviderProtocol {
+    typealias UserRequestCompletion = (_ data: User?, _ error: Error?) -> Void
+    func requestUserData(_ completion: UserRequestCompletion?)
     var data: String? { get}
 }
 
@@ -30,7 +31,7 @@ extension UserDataProviderProtocol {
 
 /// Provider for User info
 class UserDataProvider: UserDataProviderProtocol {
-    func requestData(_ completion: DataProviderCallback? = nil) {
+    func requestUserData(_ completion: UserRequestCompletion? = nil) {
         guard let data = data?.data(using: .utf8) else {
             completion?(nil, DataProcessingError.error(withErrorCode: .cannotProcess) )
             return

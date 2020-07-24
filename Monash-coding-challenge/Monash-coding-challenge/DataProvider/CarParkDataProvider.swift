@@ -8,8 +8,9 @@
 
 import Foundation
 
-protocol CarParkDataProviderProtocol: DataProviderProtocol  {
-    typealias ResponseData = [Carpark]
+protocol CarParkDataProviderProtocol {
+    typealias CarParkRequestCompletion = (_ data: [Carpark]?, _ error: Error?) -> Void
+    func requestCarParkData(_ completion: CarParkRequestCompletion?)
 }
 
 extension CarParkDataProviderProtocol {
@@ -67,14 +68,14 @@ extension CarParkDataProviderProtocol {
 }
 
 class CarParkDataProvider: CarParkDataProviderProtocol {
-    func requestData(_ completion: DataProviderCallback? = nil) {
+    func requestCarParkData(_ completion: CarParkRequestCompletion? = nil) {
         let random = Int(arc4random() % 3)
         guard let list = data, list.count > random, let data = list[random].data(using: .utf8) else {
             completion?(nil, DataProcessingError.error(withErrorCode: .cannotProcess) )
             return
         }
         do {
-            let decodedData = try JSONDecoder().decode([String: ResponseData].self, from: data)
+            let decodedData = try JSONDecoder().decode([String: [Carpark]].self, from: data)
             let data = Array(decodedData.values).first
             completion?(data, nil)
         } catch {
